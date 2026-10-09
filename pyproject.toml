@@ -1,0 +1,111 @@
+[project]
+name = "bio-inspired-arc-agi"
+version = "0"
+description = "Workspace root. Not a package: holds the workspace, the lock and the shared tool configuration."
+requires-python = ">=3.12,<3.13"
+
+[tool.uv]
+package = false
+default-groups = ["dev"]
+
+[tool.uv.workspace]
+members = ["trm"]
+
+[dependency-groups]
+dev = [
+    "mypy",
+    "pre-commit",
+    "ruff",
+    "types-pyyaml",
+]
+
+[tool.ruff]
+src = ["trm", "scoring"]
+extend-exclude = ["arc-agi", "trm/TinyRecursiveModels"]
+force-exclude = true
+cache-dir = "~/.cache/ruff"
+line-length = 99
+indent-width = 4
+target-version = "py312"
+
+[tool.ruff.lint]
+select = [
+    "F",
+    "E",
+    "W",
+    "I",
+    "N",
+    "D",
+    "DOC",
+    "UP",
+    "ASYNC",
+    "B",
+    "BLE",
+    "C4",
+    "DTZ",
+    "ERA",
+    "EXE",
+    "FIX",
+    "G",
+    "LOG",
+    "NPY",
+    "PGH",
+    "PIE",
+    "PLE",
+    "PLW",
+    "PT",
+    "RUF",
+    "SIM",
+    "T10",
+    "T20",
+    "TRY",
+    "any-type",
+    "relative-imports",
+    "exec-builtin",
+    "try-except-pass",
+    "try-except-continue",
+    "suspicious-pickle-usage",
+    "suspicious-eval-usage",
+]
+ignore = [
+    "raise-vanilla-args",
+    "undocumented-magic-method",
+    "undocumented-public-init",
+    "noqa-comments",
+]
+preview = true
+
+[tool.ruff.lint.per-file-ignores]
+"trm/eval_trm.py" = ["T20"]
+"scoring/score.py" = ["T20"]
+
+[tool.ruff.lint.flake8-tidy-imports]
+ban-relative-imports = "all"
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.pydoclint]
+ignore-one-line-docstrings = true
+
+[tool.mypy]
+strict = true
+python_version = "3.12"
+files = ["trm", "scoring"]
+exclude = ["^trm/(TinyRecursiveModels|data|checkpoints|results)/"]
+warn_unreachable = true
+enable_error_code = [
+    "possibly-undefined",
+    "ignore-without-code",
+    "truthy-bool",
+    "truthy-iterable",
+    "redundant-expr",
+    "redundant-self",
+    "unimported-reveal",
+    "exhaustive-match",
+]
+
+# Upstream TRM is imported through sys.path from the submodule and ships no types.
+[[tool.mypy.overrides]]
+module = ["dataset.*", "evaluators.*", "models.*"]
+ignore_missing_imports = true
