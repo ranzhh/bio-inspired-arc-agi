@@ -1,0 +1,6 @@
+[submodule "arc-agi"]
+	path = arc-agi
+	url = https://github.com/fchollet/ARC-AGI.git
+[submodule "trm/TinyRecursiveModels"]
+	path = trm/TinyRecursiveModels
+	url = https://github.com/SamsungSAILMontreal/TinyRecursiveModels.git
